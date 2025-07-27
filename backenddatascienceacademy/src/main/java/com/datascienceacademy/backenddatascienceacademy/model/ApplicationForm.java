@@ -41,7 +41,7 @@ public class ApplicationForm {
     private String nationality;
 
     @Lob
-    private byte[] cvFile;
+    private String cvFile;
 
     // Getters and Setters
     public Long getId() {
@@ -228,11 +228,11 @@ public class ApplicationForm {
         this.nationality = nationality;
     }
 
-    public byte[] getCvFile() {
+    public String getCvFile() {
         return cvFile;
     }
 
-    public void setCvFile(byte[] cvFile) {
+    public void setCvFile(String cvFile) {
         this.cvFile = cvFile;
     }
 }
