@@ -3,6 +3,8 @@ package com.datascienceacademy.backenddatascienceacademy.model;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class ApplicationForm {
@@ -42,6 +44,16 @@ public class ApplicationForm {
 
     @Lob
     private String cvFile;
+    private String courseCode;
+    @OneToMany(
+            mappedBy = "applicationForm",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+
+    private List<ModuleMark> finalYearModules = new ArrayList<>();
+
+
 
     // Getters and Setters
     public Long getId() {
@@ -235,4 +247,28 @@ public class ApplicationForm {
     public void setCvFile(String cvFile) {
         this.cvFile = cvFile;
     }
+    public String getCourseCode() {
+        return courseCode;
+    }
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public List<ModuleMark> getFinalYearModules() {
+        return finalYearModules;
+    }
+    public void setFinalYearModules(List<ModuleMark> modules) {
+        // 1) drop any old entries
+        this.finalYearModules.clear();
+
+        if (modules != null) {
+            // 2) for each new module, tell it who its parent is…
+            for (ModuleMark m : modules) {
+                m.setApplicationForm(this);
+            }
+            // 3) …then add them all in one go
+            this.finalYearModules.addAll(modules);
+        }
+    }
+
 }

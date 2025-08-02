@@ -26,4 +26,10 @@ public class ApplicationFormService {
     public ApplicationForm getById(Long id) {
         return repository.findById(id).orElse(null);
     }
+    /** New: update only the status */
+    public ApplicationForm updateStatus(Long id, String newStatus) {
+        ApplicationForm form = getById(id);                // throws if missing
+        form.setApplicationStatus(newStatus);
+        return repository.save(form);
+    }
 }
